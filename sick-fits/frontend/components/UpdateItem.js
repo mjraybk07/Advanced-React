@@ -40,6 +40,7 @@ const UPDATE_ITEM_MUTATION = gql`
 
 class UpdateItem extends Component {
   state = {  };
+  
   handleChange = e => {
     const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) : value;
@@ -64,7 +65,7 @@ class UpdateItem extends Component {
     return (
       <Query 
         query={SINGLE_ITEM_QUERY} 
-        varibles={{
+        variables={{
           id: this.props.id
         }}
       >
