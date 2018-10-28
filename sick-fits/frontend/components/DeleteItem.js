@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Router from 'next/router';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
+import { ALL_ITEMS_QUERY } from './Items'
+
+
+const DELETE_ITEM_MUTATION = gql`
+  mutation DELETE_ITEM_MUTAION($id: ID!) {
+    deleteItem(id: $id) {
+      id 
+    }
+  }
+`;
 
 
 class DeleteItem extends Component{
-  state = {};
-
-
+  update = (cache, payload) => {
+    // manually update the cache on the client to match server
+    // 1. read cache for items we want
+    const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
+    console.log(data, payload)
+    // 2. filter the deleted item out of the page
+    data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id)
+    // 3. put items back in cache, to remove deleted item from page
+    cache.writeQuery({ query: ALL_ITEMS_QUERY, data})
+  }; 
+ 
   render () {
     return (
-      <button> {this.props.children} </button>
+      <Mutation 
+        mutation={DELETE_ITEM_MUTATION} 
+        variables={{id:  this.props.id}}
+        update={this.update}
+      >
+        {(deleteItem, { error }) => (
+          <button onClick={()=>{
+            if (confirm('Ares you sure you want to delete this item?')) {
+              deleteItem();
+            }
+          }}> {this.props.children} </button>
+        )}
+      </Mutation>
     )
   }
 }
