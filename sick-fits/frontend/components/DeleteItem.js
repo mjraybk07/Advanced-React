@@ -7,14 +7,12 @@ import Error from './ErrorMessage';
 
 
 class DeleteItem extends Component{
-  state = {
-
-  }
+  state = {};
 
 
   render () {
     return (
-      <div> DELETE.... id: {this.props.id}</div>
+      <button> {this.props.children} </button>
     )
   }
 }
