@@ -33,7 +33,14 @@ class Item extends Component {
             <a>Edit</a>
           </Link>
           <button>Add to cart</button>
-          <button>Delete</button>
+
+          <Link href={{
+            pathname: "/delete",
+            query: {id: item.id}
+          }}>
+            <a>Delete</a>
+          </Link>
+          
         </div>
       </ItemStyles>
     );
