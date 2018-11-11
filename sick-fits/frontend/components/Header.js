@@ -3,18 +3,19 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import Link from 'next/link';
 import Nav from './Nav';
+import Cart from './Cart';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
-  console.log('onRouteChangeStart triggered')
+  //console.log('onRouteChangeStart triggered')
 }
 Router.onRouteChangeComplete = () => {
   NProgress.done();
-  console.log('onRouteChangeComplete triggered')
+  //console.log('onRouteChangeComplete triggered')
 }
 Router.onRouteChangeError = () => {
   NProgress.done();
-  console.log('onRouteChangeError triggered')
+  //console.log('onRouteChangeError triggered')
 }
 
 const Logo = styled.h1`
@@ -71,7 +72,7 @@ const Header  = () => (
     <div className="sub-bar">
       <p>Search</p>
     </div>
-    <div>Cart</div>
+    <Cart/>
   </StyledHeader>
 )
 
