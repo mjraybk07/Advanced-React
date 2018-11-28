@@ -74,7 +74,7 @@ class RemoveFromCart extends React.Component {
             }}
             title="Delete Item "
           >
-           X
+           &times;
           </BigButton>
         }
       </Mutation>
