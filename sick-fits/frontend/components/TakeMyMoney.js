@@ -28,17 +28,19 @@ const CREATE_ORDER_MUTATION = gql`
 `;
 
 class TakeMyMoney extends React.Component {
-  onToken = (res, createOrder) => {
+  onToken = async (res, createOrder) => {
     console.log('On token called')
     console.log(res.id) 
     // manually call the mutation once we have the token 
-    createOrder({
+    const order = await createOrder({
       variables: {
         token: res.id 
       }
     }).catch(err => {
-      alert(err.message);
+      alert(err.message); 
     })
+
+    console.log(order)
 
   }
 
@@ -52,19 +54,20 @@ class TakeMyMoney extends React.Component {
           >
             {(createOrder) => (
               
-            <StripeCheckout
-            amount={calcTotalPrice(me.cart)}
-            name="Sick Fits"
-            description={`Order of ${totalItems(me.cart)} items`}
-            image={me.cart[0].item && me.cart[0].item.image}
-            stripeKey="pk_test_uvQbiyTFi0N3yIE2CxxPK24U"
-            currency="USD"
-            email={me.email}
-            token={ res => this.onToken(res, createOrder)}
-            >
-              {this.props.children}
-            </StripeCheckout>
-          )}
+              <StripeCheckout
+                amount={calcTotalPrice(me.cart)}
+                name="Sick Fits"
+                description={`Order of ${totalItems(me.cart)} items`}
+                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
+                stripeKey="pk_test_uvQbiyTFi0N3yIE2CxxPK24U"
+                currency="USD"
+                email={me.email}
+                token={ res => this.onToken(res, createOrder)}
+              >
+                {this.props.children}
+              </StripeCheckout>
+
+            )}
         </Mutation>
         )}
       </User>
